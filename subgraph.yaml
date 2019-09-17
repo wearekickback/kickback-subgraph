@@ -1,0 +1,26 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: mainnet
+    source:
+      address: "0x5cD26E6DC8200630508672fF5C726478e08Da52B"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - NewParty
+        - OwnershipTransferred
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: NewParty(indexed address,indexed address)
+          handler: handleNewParty
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: ./src/mapping.ts
