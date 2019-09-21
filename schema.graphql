@@ -1,6 +1,9 @@
-type ExampleEntity @entity {
+type  PartyEntity @entity {
   id: ID!
-  count: BigInt!
-  deployedAddress: Bytes! # address
-  deployer: Bytes! # address
+  address: Bytes!
+  name: String
+  deposit: BigInt
+  limitOfParticipants: Int
+  coolingPeriod: Int
+  tokenAddress: Bytes
 }

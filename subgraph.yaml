@@ -6,7 +6,7 @@ dataSources:
     name: Contract
     network: mainnet
     source:
-      address: "0x5cD26E6DC8200630508672fF5C726478e08Da52B"
+      address: "0x3361aa92E426E052141Daf9e41A09d36e994Ba23"
       abi: Contract
     mapping:
       kind: ethereum/events
@@ -21,6 +21,7 @@ dataSources:
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
+      callHandlers:
+        - function: deploy(string,uint256,uint256,uint256,address)
+          handler: handleCreateParty
       file: ./src/mapping.ts

@@ -1,32 +1,19 @@
 import { BigInt } from "@graphprotocol/graph-ts"
+import { DeployCall } from '../generated/Contract/Contract'
 import {
   Contract,
   NewParty,
   OwnershipTransferred
 } from "../generated/Contract/Contract"
-import { ExampleEntity } from "../generated/schema"
+import { PartyEntity } from "../generated/schema"
+import { EthereumCall } from '@graphprotocol/graph-ts'
 
 export function handleNewParty(event: NewParty): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
+  let entity = PartyEntity.load(event.transaction.from.toHex())
   if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+    entity = new PartyEntity(event.transaction.from.toHex())
   }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity.deployedAddress = event.params.deployedAddress
-  entity.deployer = event.params.deployer
-
+  entity.address = event.params.deployedAddress
   // Entities can be written to the store with `.save()`
   entity.save()
 
@@ -48,4 +35,15 @@ export function handleNewParty(event: NewParty): void {
   // - contract.owner(...)
 }
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
+export function handleCreateParty(call: DeployCall): void {
+  let entity = PartyEntity.load(call.transaction.hash.toHex())
+  if (entity == null) {
+    entity = new PartyEntity(call.transaction.hash.toHex())
+  }
+  entity.name = call.inputs._name
+  entity.deposit = call.inputs._deposit
+  entity.limitOfParticipants = call.inputs._limitOfParticipants.toI32()
+  entity.coolingPeriod = call.inputs._coolingPeriod.toI32()
+  entity.tokenAddress = call.inputs._tokenAddress
+  entity.save()
+}
