@@ -37,7 +37,7 @@ export function handleNewParty(event: NewParty): void {
 }
 
 export function handleCreateParty(call: DeployCall): void {
-  log.debug(
+  log.warning(
     'Block number: {}, block hash: {}, transaction hash: {}',
     [
       call.block.number.toString(),       // "47596000"
@@ -45,11 +45,11 @@ export function handleCreateParty(call: DeployCall): void {
       call.transaction.hash.toHexString() // "0x..."
     ]
   );
-  log.debug('call.inputs._name', [call.inputs._name]);
-  log.debug('call.inputs._deposit', [call.inputs._deposit.toString()]);
-  log.debug('call.inputs._limitOfParticipants', [call.inputs._limitOfParticipants.toString()]);
-  log.debug('call.inputs._coolingPeriod', [call.inputs._coolingPeriod.toString()]);
-  log.debug('call.inputs._tokenAddress', [call.inputs._tokenAddress.toString()]);
+  log.warning('call.inputs._name {}', [call.inputs._name]);
+  log.warning('call.inputs._deposit {}', [call.inputs._deposit.toString()]);
+  log.warning('call.inputs._limitOfParticipants {}', [call.inputs._limitOfParticipants.toString()]);
+  log.warning('call.inputs._coolingPeriod {}', [call.inputs._coolingPeriod.toString()]);
+  log.warning('call.inputs._tokenAddress {}', [call.inputs._tokenAddress.toHexString()]);
 
   let entity = PartyEntity.load(call.transaction.hash.toHex())
   if (entity == null) {
