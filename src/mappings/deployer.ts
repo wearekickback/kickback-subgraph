@@ -1,9 +1,9 @@
 import { BigInt } from "@graphprotocol/graph-ts"
-import { DeployCall } from '../generated/Deployer/Deployer'
+import { DeployCall } from '../../generated/Deployer/Deployer'
 import {
   NewParty
-} from "../generated/Deployer/Deployer"
-import { PartyEntity } from "../generated/schema"
+} from "../../generated/Deployer/Deployer"
+import { PartyEntity } from "../../generated/schema"
 import { EthereumCall } from '@graphprotocol/graph-ts'
 import { EthereumBlock } from '@graphprotocol/graph-ts'
 import { log } from '@graphprotocol/graph-ts'

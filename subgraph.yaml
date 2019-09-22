@@ -28,4 +28,4 @@ dataSources:
         - handler: handleBlock
           filter:
             kind: call
-      file: ./src/mapping.ts
+      file: ./src/mappings/deployer.ts
