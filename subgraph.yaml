@@ -24,4 +24,8 @@ dataSources:
       callHandlers:
         - function: deploy(string,uint256,uint256,uint256,address)
           handler: handleCreateParty
+      blockHandlers:
+        - handler: handleBlock
+          filter:
+            kind: call
       file: ./src/mapping.ts

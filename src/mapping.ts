@@ -7,9 +7,18 @@ import {
 } from "../generated/Contract/Contract"
 import { PartyEntity } from "../generated/schema"
 import { EthereumCall } from '@graphprotocol/graph-ts'
+import { EthereumBlock } from '@graphprotocol/graph-ts'
 import { log } from '@graphprotocol/graph-ts'
 
 export function handleNewParty(event: NewParty): void {
+  log.warning(
+    '*** 1 Block number: {}, block hash: {}, transaction hash: {}',
+    [
+      event.block.number.toString(),       // "47596000"
+      event.block.hash.toHexString(),      // "0x..."
+      event.transaction.hash.toHexString() // "0x..."
+    ]
+  );
   let entity = PartyEntity.load(event.transaction.from.toHex())
   if (entity == null) {
     entity = new PartyEntity(event.transaction.from.toHex())
@@ -38,7 +47,7 @@ export function handleNewParty(event: NewParty): void {
 
 export function handleCreateParty(call: DeployCall): void {
   log.warning(
-    'Block number: {}, block hash: {}, transaction hash: {}',
+    '*** 2 Block number: {}, block hash: {}, transaction hash: {}',
     [
       call.block.number.toString(),       // "47596000"
       call.block.hash.toHexString(),      // "0x..."
@@ -61,4 +70,14 @@ export function handleCreateParty(call: DeployCall): void {
   entity.coolingPeriod = call.inputs._coolingPeriod.toI32()
   entity.tokenAddress = call.inputs._tokenAddress
   entity.save()
+}
+
+export function handleBlock(block: EthereumBlock): void {
+  log.warning(
+    '*** 3 Block number: {}, block hash: {}',
+    [
+      block.number.toString(),       // "47596000"
+      block.hash.toHexString()      // "0x..."
+    ]
+  );
 }
