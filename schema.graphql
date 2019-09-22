@@ -1,6 +1,6 @@
 type  PartyEntity @entity {
   id: ID!
-  address: Bytes!
+  address: Bytes
   name: String
   deposit: BigInt
   limitOfParticipants: Int
