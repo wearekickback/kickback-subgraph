@@ -1,10 +1,8 @@
 import { BigInt } from "@graphprotocol/graph-ts"
-import { DeployCall } from '../generated/Contract/Contract'
+import { DeployCall } from '../generated/Deployer/Deployer'
 import {
-  Contract,
-  NewParty,
-  OwnershipTransferred
-} from "../generated/Contract/Contract"
+  NewParty
+} from "../generated/Deployer/Deployer"
 import { PartyEntity } from "../generated/schema"
 import { EthereumCall } from '@graphprotocol/graph-ts'
 import { EthereumBlock } from '@graphprotocol/graph-ts'
@@ -26,23 +24,6 @@ export function handleNewParty(event: NewParty): void {
   entity.address = event.params.deployedAddress
   // Entities can be written to the store with `.save()`
   entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.owner(...)
 }
 
 export function handleCreateParty(call: DeployCall): void {

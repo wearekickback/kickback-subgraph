@@ -3,11 +3,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Contract
+    name: Deployer
     network: mainnet
     source:
       address: "0x3361aa92E426E052141Daf9e41A09d36e994Ba23"
-      abi: Contract
+      abi: Deployer
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
@@ -16,8 +16,8 @@ dataSources:
         - NewParty
         - OwnershipTransferred
       abis:
-        - name: Contract
-          file: ./abis/Contract.json
+        - name: Deployer
+          file: ./abis/Deployer.json
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
