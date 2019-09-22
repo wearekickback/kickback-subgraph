@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
@@ -29,3 +29,25 @@ dataSources:
           filter:
             kind: call
       file: ./src/mappings/deployer.ts
+templates:
+  - kind: ethereum/contract
+    name: Party
+    network: mainnet
+    source:
+      abi: Party
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      file: ./src/mappings/party.ts
+      entities:
+        - Party
+        - Money
+      abis:
+        - name: Party
+          file: ./abis/Party.json
+      eventHandlers:
+        - event: RegisterEvent(address,uint256)
+          handler: handleRegisterEvent
+        - event: WithdrawEvent(address,uint256)
+          handler: handleWithdrawEvent

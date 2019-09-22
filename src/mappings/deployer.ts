@@ -17,9 +17,9 @@ export function handleNewParty(event: NewParty): void {
       event.transaction.hash.toHexString() // "0x..."
     ]
   );
-  let entity = PartyEntity.load(event.transaction.from.toHex())
+  let entity = PartyEntity.load(event.transaction.hash.toHex())
   if (entity == null) {
-    entity = new PartyEntity(event.transaction.from.toHex())
+    entity = new PartyEntity(event.transaction.hash.toHex())
   }
   entity.address = event.params.deployedAddress
   // Entities can be written to the store with `.save()`

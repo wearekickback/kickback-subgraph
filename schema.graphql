@@ -7,3 +7,29 @@ type  PartyEntity @entity {
   coolingPeriod: Int
   tokenAddress: Bytes
 }
+
+type RegisterEntity @entity{
+  id: ID!
+  address: Bytes!
+  index: BigInt!
+  deposit: BigInt!
+  blockNumber: Int!
+  timestamp: BigInt!
+}
+
+type WithdrawEntity @entity{
+  id: ID!
+  address: Bytes!
+  payout: BigInt!
+  blockNumber: Int!
+  timestamp: BigInt!
+}
+
+type MoneyEntity @entity{
+  id: ID!
+  address: Bytes!
+  amount:BigInt!
+  direction: String!
+  blockNumber: Int!
+  timestamp: BigInt!
+}
