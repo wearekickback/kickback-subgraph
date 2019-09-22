@@ -1,3 +1,13 @@
+type StatsEntity @entity {
+  id: ID!
+  dayGroup: Int
+  blockNumber: Int
+  timestamp: BigInt
+  numIn: Int
+  numOut: Int
+}
+
+
 type MetaEntity @entity {
   id: ID!
   address: Bytes

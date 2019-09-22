@@ -6,6 +6,26 @@ dataSources:
     name: Deployer
     network: mainnet
     source:
+      address: "0x3b4e0e8b808b360330a63ae13c2434977bc17203"
+      abi: Deployer
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - NewParty
+        - OwnershipTransferred
+      abis:
+        - name: Deployer
+          file: ./abis/Deployer.json
+      eventHandlers:
+        - event: NewParty(indexed address,indexed address)
+          handler: handleNewParty
+      file: ./src/mappings/deployer.ts
+  - kind: ethereum/contract
+    name: Deployer
+    network: mainnet
+    source:
       address: "0x3361aa92E426E052141Daf9e41A09d36e994Ba23"
       abi: Deployer
     mapping:
@@ -21,13 +41,6 @@ dataSources:
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
-      # callHandlers:
-      #   - function: deploy(string,uint256,uint256,uint256,address)
-      #     handler: handleCreateParty
-      # blockHandlers:
-      #   - handler: handleBlock
-      #     filter:
-      #       kind: call
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer

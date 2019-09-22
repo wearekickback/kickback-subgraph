@@ -4,11 +4,10 @@ import {
   RegisterEvent,
   WithdrawEvent
 } from "../../generated/templates/Party/Party"
-import { MoneyEntity, MetaEntity } from "../../generated/schema"
+import { MoneyEntity, MetaEntity, StatsEntity } from "../../generated/schema"
 import { log } from '@graphprotocol/graph-ts'
 
 export function handleRegisterEvent(event: RegisterEvent): void {
-  
   log.warning(
     '*** 4 Block number: {}, block hash: {}, transaction hash: {}',
     [
@@ -18,9 +17,25 @@ export function handleRegisterEvent(event: RegisterEvent): void {
     ]
   );
   let entity = new MoneyEntity(event.transaction.hash.toHex())
+
+
   let meta = MetaEntity.load('')
   meta.numMoneyTransactions =  meta.numMoneyTransactions + 1 
   meta.save()
+
+  let dayGroup = event.block.timestamp.toI32() / 86400
+  let stats = StatsEntity.load(dayGroup.toString())
+  if(stats){
+    stats.numIn = stats.numIn + 1
+  }else{
+    stats = new StatsEntity(dayGroup.toString())
+    stats.numIn = 0
+    stats.numOut = 0
+  }
+  stats.dayGroup  = dayGroup
+  stats.blockNumber = event.block.number.toI32()
+  stats.timestamp = event.block.timestamp
+  stats.save()
 
   entity.partyAddress = event.address
   entity.userAddress = event.params.addr
@@ -44,6 +59,20 @@ export function handleWithdrawEvent(event: WithdrawEvent): void {
   let meta = MetaEntity.load('')
   meta.numMoneyTransactions =  meta.numMoneyTransactions + 1 
   meta.save()
+
+  let dayGroup = event.block.timestamp.toI32() / 86400
+  let stats = StatsEntity.load(dayGroup.toString())
+  if(stats){
+    stats.numOut = stats.numOut + 1
+  }else{
+    stats = new StatsEntity(dayGroup.toString())
+    stats.numIn = 0
+    stats.numOut = 0
+  }
+  stats.dayGroup  = dayGroup
+  stats.blockNumber = event.block.number.toI32()
+  stats.timestamp = event.block.timestamp
+  stats.save()
 
   entity.partyAddress = event.address
   entity.userAddress = event.params.addr
