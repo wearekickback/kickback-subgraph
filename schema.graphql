@@ -1,4 +1,12 @@
-type  PartyEntity @entity {
+type MetaEntity @entity {
+  id: ID!
+  address: Bytes
+  numDeployers: Int
+  numParties: Int
+  numMoneyTransactions: Int
+}
+
+type  PendingPartyEntity @entity {
   id: ID!
   address: Bytes
   name: String
@@ -8,28 +16,23 @@ type  PartyEntity @entity {
   tokenAddress: Bytes
 }
 
-type RegisterEntity @entity{
+type  PartyEntity @entity {
   id: ID!
-  address: Bytes!
-  index: BigInt!
-  deposit: BigInt!
-  blockNumber: Int!
-  timestamp: BigInt!
-}
-
-type WithdrawEntity @entity{
-  id: ID!
-  address: Bytes!
-  payout: BigInt!
-  blockNumber: Int!
-  timestamp: BigInt!
+  address: Bytes
+  name: String
+  deposit: BigInt
+  limitOfParticipants: Int
+  coolingPeriod: Int
+  tokenAddress: Bytes
+  numMoneyTransactions: Int
 }
 
 type MoneyEntity @entity{
   id: ID!
-  address: Bytes!
-  amount:BigInt!
-  direction: String!
-  blockNumber: Int!
-  timestamp: BigInt!
+  partyAddress: Bytes
+  userAddress: Bytes
+  amount:BigInt
+  direction: String
+  blockNumber: Int
+  timestamp: BigInt
 }

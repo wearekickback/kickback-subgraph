@@ -4,10 +4,11 @@ import {
   RegisterEvent,
   WithdrawEvent
 } from "../../generated/templates/Party/Party"
-import { MoneyEntity } from "../../generated/schema"
+import { MoneyEntity, MetaEntity } from "../../generated/schema"
 import { log } from '@graphprotocol/graph-ts'
 
 export function handleRegisterEvent(event: RegisterEvent): void {
+  
   log.warning(
     '*** 4 Block number: {}, block hash: {}, transaction hash: {}',
     [
@@ -17,8 +18,13 @@ export function handleRegisterEvent(event: RegisterEvent): void {
     ]
   );
   let entity = new MoneyEntity(event.transaction.hash.toHex())
-  entity.address = event.params.addr
-  // entity.amount = contract.deposit()
+  let meta = MetaEntity.load('')
+  meta.numMoneyTransactions =  meta.numMoneyTransactions + 1 
+  meta.save()
+
+  entity.partyAddress = event.address
+  entity.userAddress = event.params.addr
+  // entity.amount = partyEntity.deposit
   entity.direction = 'IN'
   entity.blockNumber = event.block.number.toI32()
   entity.timestamp = event.block.timestamp
@@ -35,7 +41,12 @@ export function handleWithdrawEvent(event: WithdrawEvent): void {
     ]
   );
   let entity = new MoneyEntity(event.transaction.hash.toHex())
-  entity.address = event.params.addr
+  let meta = MetaEntity.load('')
+  meta.numMoneyTransactions =  meta.numMoneyTransactions + 1 
+  meta.save()
+
+  entity.partyAddress = event.address
+  entity.userAddress = event.params.addr
   entity.amount = event.params.payout
   entity.direction = 'OUT'
   entity.blockNumber = event.block.number.toI32()
