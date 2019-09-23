@@ -5,25 +5,20 @@ type StatsEntity @entity {
   timestamp: BigInt
   numIn: Int
   numOut: Int
+  amountIn: BigInt
+  amountInDai: BigInt
+  amountOut: BigInt
+  amountOutDai: BigInt
 }
-
 
 type MetaEntity @entity {
   id: ID!
   address: Bytes
   numDeployers: Int
   numParties: Int
+  numParticipants: Int
   numMoneyTransactions: Int
-}
-
-type  PendingPartyEntity @entity {
-  id: ID!
-  address: Bytes
-  name: String
-  deposit: BigInt
   limitOfParticipants: Int
-  coolingPeriod: Int
-  tokenAddress: Bytes
 }
 
 type  PartyEntity @entity {
@@ -41,6 +36,7 @@ type MoneyEntity @entity{
   id: ID!
   partyAddress: Bytes
   userAddress: Bytes
+  tokenAddress: Bytes
   amount:BigInt
   direction: String
   blockNumber: Int
