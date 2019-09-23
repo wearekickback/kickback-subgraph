@@ -1,11 +1,18 @@
 import { BigInt } from "@graphprotocol/graph-ts"
 import {
-  Party,
+  Party as PartyContract,
   RegisterEvent,
   WithdrawEvent
 } from "../../generated/templates/Party/Party"
 import { MoneyEntity, MetaEntity, StatsEntity } from "../../generated/schema"
 import { log } from '@graphprotocol/graph-ts'
+
+function saveMeta(): void {
+  let meta = MetaEntity.load('')
+  meta.numMoneyTransactions =  meta.numMoneyTransactions + 1
+  meta.save()
+}
+
 
 export function handleRegisterEvent(event: RegisterEvent): void {
   log.warning(
@@ -16,12 +23,12 @@ export function handleRegisterEvent(event: RegisterEvent): void {
       event.transaction.hash.toHexString() // "0x..."
     ]
   );
+
+  let contract = PartyContract.bind(event.address)
+
   let entity = new MoneyEntity(event.transaction.hash.toHex())
 
-
-  let meta = MetaEntity.load('')
-  meta.numMoneyTransactions =  meta.numMoneyTransactions + 1 
-  meta.save()
+  saveMeta()
 
   let dayGroup = event.block.timestamp.toI32() / 86400
   let stats = StatsEntity.load(dayGroup.toString())
@@ -39,7 +46,7 @@ export function handleRegisterEvent(event: RegisterEvent): void {
 
   entity.partyAddress = event.address
   entity.userAddress = event.params.addr
-  // entity.amount = partyEntity.deposit
+  entity.amount = contract.deposit()
   entity.direction = 'IN'
   entity.blockNumber = event.block.number.toI32()
   entity.timestamp = event.block.timestamp
@@ -56,9 +63,8 @@ export function handleWithdrawEvent(event: WithdrawEvent): void {
     ]
   );
   let entity = new MoneyEntity(event.transaction.hash.toHex())
-  let meta = MetaEntity.load('')
-  meta.numMoneyTransactions =  meta.numMoneyTransactions + 1 
-  meta.save()
+
+  saveMeta()
 
   let dayGroup = event.block.timestamp.toI32() / 86400
   let stats = StatsEntity.load(dayGroup.toString())
