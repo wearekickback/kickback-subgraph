@@ -42,6 +42,8 @@ dataSources:
       abis:
         - name: Deployer
           file: ./abis/Deployer.json
+        - name: Party
+          file: ./abis/Party.json
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
@@ -63,6 +65,8 @@ dataSources:
   #     abis:
   #       - name: Deployer
   #         file: ./abis/Deployer.json
+  #       - name: Party
+  #         file: ./abis/Party.json
   #     eventHandlers:
   #       - event: NewParty(indexed address,indexed address)
   #         handler: handleNewParty
@@ -84,6 +88,8 @@ dataSources:
   #     abis:
   #       - name: Deployer
   #         file: ./abis/Deployer.json
+  #       - name: Party
+  #         file: ./abis/Party.json
   #     eventHandlers:
   #       - event: NewParty(indexed address,indexed address)
   #         handler: handleNewParty
@@ -103,6 +109,8 @@ templates:
         - Party
         - Money
       abis:
+        - name: Deployer
+          file: ./abis/Deployer.json
         - name: Party
           file: ./abis/Party.json
       eventHandlers:
