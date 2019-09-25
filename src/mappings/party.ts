@@ -11,11 +11,17 @@ import { log } from '@graphprotocol/graph-ts'
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 function saveMeta(direction:String): void {
+  log.warning('***** saveMeta {}', ['1'])
   let meta = MetaEntity.load('')
+  log.warning('***** saveMeta {}', ['2'])
   meta.numMoneyTransactions =  meta.numMoneyTransactions + 1
+  log.warning('***** saveMeta {}', ['3'])
   if(direction == 'IN'){
+    log.warning('***** saveMeta {}', ['4'])
     meta.numParticipants = meta.numParticipants + 1
+    log.warning('***** saveMeta {}', ['5'])
   }
+  log.warning('***** saveMeta {}', ['6'])
   meta.save()
 }
 
@@ -26,7 +32,7 @@ function saveStats(timestamp: BigInt, blockNumber: BigInt, direction:String, amo
     if(direction == 'IN'){
       stats.numIn = stats.numIn + 1
       log.warning('*****3 {}', ['1'])
-      if(tokenAddress.toString() == EMPTY_ADDRESS){
+      if(tokenAddress.toHexString() == EMPTY_ADDRESS){
         log.warning('*****3 {}', ['2'])
         stats.amountIn = stats.amountIn.plus(amount)
       }else{
@@ -37,7 +43,7 @@ function saveStats(timestamp: BigInt, blockNumber: BigInt, direction:String, amo
       log.warning('*****3 {}', ['4'])
       stats.numOut = stats.numOut + 1
       log.warning('*****3 {}', ['5'])
-      if(tokenAddress.toString() == EMPTY_ADDRESS){
+      if(tokenAddress.toHexString() == EMPTY_ADDRESS){
         log.warning('*****3 {}', ['6'])
         stats.amountOut = stats.amountOut.plus(amount)
         log.warning('*****3 {}', ['7'])
@@ -75,12 +81,16 @@ export function handleRegisterEvent(event: RegisterEvent): void {
   let entity = new MoneyEntity(event.transaction.hash.toHex())
   log.warning('*****2 {}', ['3'])
   let amount = contract.deposit()
-  log.warning('*****2 {}', ['4'])
+  log.warning('*****2 {}', ['4a'])
   let tokenAddress = contract.tokenAddress()
-  log.warning('*****2 {} tokenAddress {}', ['4', tokenAddress.toString()])
+  log.warning('*****2 {} tokenAddress {}', ['4b', tokenAddress.toHexString()])
+  log.warning('*****2 {}', ['4c'])
   entity.partyAddress = event.address
+  log.warning('*****2 {}', ['4d'])
   entity.userAddress = event.params.addr
+  log.warning('*****2 {}', ['4e'])
   entity.tokenAddress = tokenAddress
+  log.warning('*****2 {}', ['4f'])
   log.warning('*****2 {}', ['6'])
   entity.amount = amount
   entity.direction = 'IN'

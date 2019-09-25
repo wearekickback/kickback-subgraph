@@ -42,6 +42,7 @@ export function handleNewParty(event: NewParty): void {
     meta = new MetaEntity('')
     meta.numParties = 1
     meta.numMoneyTransactions = 0
+    meta.numParticipants = 0
     meta.limitOfParticipants = limitOfParticipants
   }  
   meta.save()
