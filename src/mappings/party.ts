@@ -3,9 +3,11 @@ import {
   Party as PartyContract,
   RegisterEvent,
   WithdrawEvent,
-  UpdateParticipantLimit
+  UpdateParticipantLimit,
+  FinalizeEvent,
+  ClearEvent
 } from "../../generated/templates/Party/Party"
-import { MoneyEntity, MetaEntity, StatsEntity } from "../../generated/schema"
+import { MoneyEntity, MetaEntity, StatsEntity, PartyEntity, ParticipantEntity } from "../../generated/schema"
 import { log } from '@graphprotocol/graph-ts'
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000'
@@ -68,41 +70,34 @@ function saveStats(timestamp: BigInt, blockNumber: BigInt, direction:String, amo
 
 export function handleRegisterEvent(event: RegisterEvent): void {
   log.warning(
-    '*** handleRegisterEvent: {}, block hash: {}, transaction hash: {}',
+    '*** handleRegisterEvent: contract address:{} block number:{}, block hash: {}, transaction hash: {}',
     [
+      event.address.toHexString(),
       event.block.number.toString(),       // "47596000"
       event.block.hash.toHexString(),      // "0x..."
       event.transaction.hash.toHexString() // "0x..."
     ]
   );
-  log.warning('*****2 {}', ['1'])
   let contract = PartyContract.bind(event.address)
-  log.warning('*****2 {}', ['2'])
   let entity = new MoneyEntity(event.transaction.hash.toHex())
-  log.warning('*****2 {}', ['3'])
   let amount = contract.deposit()
-  log.warning('*****2 {}', ['4a'])
   let tokenAddress = contract.tokenAddress()
-  log.warning('*****2 {} tokenAddress {}', ['4b', tokenAddress.toHexString()])
-  log.warning('*****2 {}', ['4c'])
   entity.partyAddress = event.address
-  log.warning('*****2 {}', ['4d'])
   entity.userAddress = event.params.addr
-  log.warning('*****2 {}', ['4e'])
   entity.tokenAddress = tokenAddress
-  log.warning('*****2 {}', ['4f'])
-  log.warning('*****2 {}', ['6'])
   entity.amount = amount
   entity.direction = 'IN'
-  log.warning('*****2 {}', ['7'])
   entity.blockNumber = event.block.number.toI32()
-  log.warning('*****2 {}', ['8'])
   entity.timestamp = event.block.timestamp
-  log.warning('*****2 {}', ['9'])
   entity.save()
-  log.warning('*****2 {}', ['10'])
+
+  let participant = new ParticipantEntity(event.address.toHexString() + '-' + event.params.addr.toHexString())
+  participant.partyAddress = event.address
+  participant.userAddress = event.params.addr
+  participant.state = 'REGISTERED'
+  participant.save()
+
   saveMeta('IN')
-  log.warning('*****2 {}', ['11'])
   saveStats(
     event.block.timestamp,
     event.block.number,
@@ -134,6 +129,10 @@ export function handleWithdrawEvent(event: WithdrawEvent): void {
   entity.timestamp = event.block.timestamp
   entity.save()
 
+  let participant = ParticipantEntity.load(event.address.toHexString() + '-' + event.params.addr.toHexString())
+  participant.state = 'WITHDRAWN'
+  participant.save()
+
   saveMeta('OUT')
   saveStats(
     event.block.timestamp,
@@ -145,5 +144,17 @@ export function handleWithdrawEvent(event: WithdrawEvent): void {
 }
 
 export function handleUpdateParticipantLimit(event: UpdateParticipantLimit): void {
+  let party = PartyEntity.load(event.address.toHexString())
+  party.limitOfParticipants = event.params.limit.toI32()
+  party.save()
+}
+
+export function handleFinalizeEvent(event: FinalizeEvent): void {
+  let party = PartyEntity.load(event.address.toHexString())
+  party.payout = event.params.payout
+  party.save()
+}
+
+export function handleClearEvent(event: ClearEvent): void {
 
 }

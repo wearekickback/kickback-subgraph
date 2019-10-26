@@ -31,6 +31,10 @@ export function handleNewParty(event: NewParty): void {
   let party = PartyBindingContract.bind(event.params.deployedAddress)
   let limitOfParticipants = party.limitOfParticipants().toI32()
   let newEntity = new PartyEntity(event.params.deployedAddress.toHex())
+  newEntity.limitOfParticipants = limitOfParticipants
+  newEntity.tokenAddress = party.tokenAddress()
+  newEntity.address = event.params.deployedAddress
+  newEntity.deposit = party.deposit()
   newEntity.save()
 
   let meta = MetaEntity.load('')

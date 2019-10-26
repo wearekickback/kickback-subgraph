@@ -26,6 +26,7 @@ type  PartyEntity @entity {
   address: Bytes
   name: String
   deposit: BigInt
+  payout: BigInt
   limitOfParticipants: Int
   coolingPeriod: Int
   tokenAddress: Bytes
@@ -41,4 +42,11 @@ type MoneyEntity @entity{
   direction: String
   blockNumber: Int
   timestamp: BigInt
+}
+
+type ParticipantEntity @entity {
+  id: ID!
+  partyAddress: Bytes
+  userAddress: Bytes
+  state: String
 }

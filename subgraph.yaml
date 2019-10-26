@@ -120,3 +120,7 @@ templates:
           handler: handleWithdrawEvent
         - event: UpdateParticipantLimit(uint256)
           handler: handleUpdateParticipantLimit
+        - event: FinalizeEvent(uint256[],uint256,uint256)
+          handler: handleFinalizeEvent
+        - event: ClearEvent(address,uint256)
+          handler: handleClearEvent
