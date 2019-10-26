@@ -1,13 +1,13 @@
 {
-  "name": "deployer",
+  "name": "kickback-subgraph",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ makoto/deployer",
-    "create-local": "graph create --node http://localhost:8020/ makoto/deployer",
-    "remove-local": "graph remove --node http://localhost:8020/ makoto/deployer",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 makoto/deployer"
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ makoto/kickback-subgraph",
+    "create-local": "graph create --node http://localhost:8020/ makoto/kickback-subgraph",
+    "remove-local": "graph remove --node http://localhost:8020/ makoto/kickback-subgraph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 makoto/kickback-subgraph"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.15.0",

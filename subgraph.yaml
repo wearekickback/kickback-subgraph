@@ -48,52 +48,52 @@ dataSources:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
       file: ./src/mappings/deployer.ts
-  # - kind: ethereum/contract
-  #   name: Deployer
-  #   network: mainnet
-  #   source:
-  #     # 1.0
-  #     address: "0x0F84461931866cFB2796E09B20520847D49F80F2"
-  #     abi: Deployer
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.3
-  #     language: wasm/assemblyscript
-  #     entities:
-  #       - NewParty
-  #       - OwnershipTransferred
-  #     abis:
-  #       - name: Deployer
-  #         file: ./abis/Deployer.json
-  #       - name: Party
-  #         file: ./abis/Party.json
-  #     eventHandlers:
-  #       - event: NewParty(indexed address,indexed address)
-  #         handler: handleNewParty
-  #     file: ./src/mappings/deployer.ts
-  # - kind: ethereum/contract
-  #   name: Deployer
-  #   network: mainnet
-  #   source:
-  #     # Devcon4
-  #     address: "0x3b4e0e8b808b360330a63ae13c2434977bc17203"
-  #     abi: Deployer
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.3
-  #     language: wasm/assemblyscript
-  #     entities:
-  #       - NewParty
-  #       - OwnershipTransferred
-  #     abis:
-  #       - name: Deployer
-  #         file: ./abis/Deployer.json
-  #       - name: Party
-  #         file: ./abis/Party.json
-  #     eventHandlers:
-  #       - event: NewParty(indexed address,indexed address)
-  #         handler: handleNewParty
-  #     file: ./src/mappings/deployer.ts
+  - kind: ethereum/contract
+    name: Deployer
+    network: mainnet
+    source:
+      # 1.0
+      address: "0x0F84461931866cFB2796E09B20520847D49F80F2"
+      abi: Deployer
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - NewParty
+        - OwnershipTransferred
+      abis:
+        - name: Deployer
+          file: ./abis/Deployer.json
+        - name: Party
+          file: ./abis/Party.json
+      eventHandlers:
+        - event: NewParty(indexed address,indexed address)
+          handler: handleEthOnlyNewParty
+      file: ./src/mappings/deployer.ts
+  - kind: ethereum/contract
+    name: Deployer
+    network: mainnet
+    source:
+      # Devcon4
+      address: "0x3b4e0e8b808b360330a63ae13c2434977bc17203"
+      abi: Deployer
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - NewParty
+        - OwnershipTransferred
+      abis:
+        - name: Deployer
+          file: ./abis/Deployer.json
+        - name: Party
+          file: ./abis/Party.json
+      eventHandlers:
+        - event: NewParty(indexed address,indexed address)
+          handler: handleEthOnlyNewParty
+      file: ./src/mappings/deployer.ts
 templates:
   - kind: ethereum/contract
     name: Party

@@ -1,26 +1,3 @@
-type StatsEntity @entity {
-  id: ID!
-  dayGroup: Int
-  blockNumber: Int
-  timestamp: BigInt
-  numIn: Int
-  numOut: Int
-  amountIn: BigInt
-  amountInDai: BigInt
-  amountOut: BigInt
-  amountOutDai: BigInt
-}
-
-type MetaEntity @entity {
-  id: ID!
-  address: Bytes
-  numDeployers: Int
-  numParties: Int
-  numParticipants: Int
-  numMoneyTransactions: Int
-  limitOfParticipants: Int
-}
-
 type  PartyEntity @entity {
   id: ID!
   address: Bytes
@@ -31,17 +8,6 @@ type  PartyEntity @entity {
   coolingPeriod: Int
   tokenAddress: Bytes
   numMoneyTransactions: Int
-}
-
-type MoneyEntity @entity{
-  id: ID!
-  partyAddress: Bytes
-  userAddress: Bytes
-  tokenAddress: Bytes
-  amount:BigInt
-  direction: String
-  blockNumber: Int
-  timestamp: BigInt
 }
 
 type ParticipantEntity @entity {
