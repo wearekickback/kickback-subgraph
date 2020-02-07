@@ -1,19 +1,24 @@
-# Kickback Deployer
+# Kickback Subgraph
 
-Please refer to [the front end repo](https://github.com/makoto/the-pot) for more about this project.
+It contains on-chain information of Kickback including party (events), and participants.
 
-## Query example
+Things not included are
 
-Recommend installing [jq](https://stedolan.github.io/jq/) which helps formating the data.
+- Metadata of event
+- Check in info
 
-## Showing daily stats of people RSVPed (numIn) and people Withdrawn(numOut)
+## How to deploy
 
+## Mainnet
 
 ```
-curl \
--X POST \
--H "Content-Type: application/json" \
---data '{ "query": "{ statsEntities(skip:0, orderBy:blockNumber) { dayGroup blockNumber numIn numOut amountIn amountOut timestamp } }" }' \
-https://api.thegraph.com/subgraphs/name/makoto/deployer \
-| jq -r '.data.statsEntities | map([.dayGroup, .blockNumber, .numIn, .numOut, .amountIn, .amountOut, .timestamp] | join(", ")) | join("\n")'
+// get access token from https://thegraph.com/explorer/subgraph/wearekickback/kickback
+export ACCESS_TOKEN=$ACCESS_TOKEN
+yarn codegen
+yarn build
+yarn deploy --access-token $ACCESS_TOKEN
 ```
+
+## Kovan
+
+Use `kovan` branch which contains kovan config and contract info

@@ -44,6 +44,7 @@ export function handleUpdateParticipantLimit(event: UpdateParticipantLimit): voi
 export function handleFinalizeEvent(event: FinalizeEvent): void {
   let party = PartyEntity.load(event.address.toHexString())
   party.payout = event.params.payout
+  party.endedAt =  event.block.timestamp
   party.save()
 }
 

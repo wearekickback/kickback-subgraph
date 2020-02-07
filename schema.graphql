@@ -7,7 +7,8 @@ type  PartyEntity @entity {
   limitOfParticipants: Int
   coolingPeriod: Int
   tokenAddress: Bytes
-  numMoneyTransactions: Int
+  createdAt: BigInt
+  endedAt: BigInt
 }
 
 type ParticipantEntity @entity {
