@@ -3,6 +3,7 @@ import {
   Party as PartyContract,
   RegisterEvent,
   WithdrawEvent,
+  ChangeMeta,
   UpdateParticipantLimit,
   FinalizeEvent,
   ClearEvent
@@ -38,6 +39,12 @@ export function handleWithdrawEvent(event: WithdrawEvent): void {
 export function handleUpdateParticipantLimit(event: UpdateParticipantLimit): void {
   let party = PartyEntity.load(event.address.toHexString())
   party.limitOfParticipants = event.params.limit.toI32()
+  party.save()
+}
+
+export function handleUpdateChangeMeta(event: ChangeMeta): void {
+  let party = PartyEntity.load(event.address.toHexString())
+  party.ipfsHash = event.params.ipfsHash
   party.save()
 }
 

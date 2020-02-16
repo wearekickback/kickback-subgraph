@@ -2,6 +2,7 @@ type  PartyEntity @entity {
   id: ID!
   address: Bytes
   name: String
+  ipfsHash: Bytes
   deposit: BigInt
   payout: BigInt
   limitOfParticipants: Int
