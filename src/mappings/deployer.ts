@@ -1,4 +1,5 @@
-import { BigInt, Bytes, ByteArray } from "@graphprotocol/graph-ts"
+import { BigInt, Bytes, ByteArray, ipfs, json } from '@graphprotocol/graph-ts'
+
 import { DeployCall } from '../../generated/Deployer/Deployer'
 import {
   NewParty
@@ -11,6 +12,7 @@ import {
   Party as PartyBindingContract,
 } from "../../generated/templates/Party/Party"
 var EMPTY_ADDRESS = Bytes.fromHexString("0x0000000000000000000000000000000000000000") as Bytes
+import { addQm } from "./util";
 
 import { log } from '@graphprotocol/graph-ts'
 
@@ -40,6 +42,11 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   }
   partyEntity.address = event.params.deployedAddress
   partyEntity.deposit = party.deposit()
+  partyEntity.ipfsHash = party.ipfsHash()
+
+  // let hexHash = addQm(party.ipfsHash()) as Bytes
+  // let base58Hash = hexHash.toBase58() // imported crypto function
+
   partyEntity.createdAt = event.block.timestamp
   partyEntity.save()
 }

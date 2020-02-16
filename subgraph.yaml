@@ -118,6 +118,8 @@ templates:
           handler: handleRegisterEvent
         - event: WithdrawEvent(address,uint256)
           handler: handleWithdrawEvent
+        - event: ChangeMeta(bytes32)
+          handler: handleUpdateChangeMeta
         - event: UpdateParticipantLimit(uint256)
           handler: handleUpdateParticipantLimit
         - event: FinalizeEvent(uint256[],uint256,uint256)
