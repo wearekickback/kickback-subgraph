@@ -10,6 +10,10 @@ import {
 import {
   Party as PartyBindingContract,
 } from "../../generated/templates/Party/Party"
+import {
+  Token as TokenBindingContract,
+} from "../../generated/templates/Party/Token"
+
 var EMPTY_ADDRESS = Bytes.fromHexString("0x0000000000000000000000000000000000000000") as Bytes
 
 import { log } from '@graphprotocol/graph-ts'
@@ -36,7 +40,15 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
     partyEntity.tokenAddress = EMPTY_ADDRESS
   }else{
     log.warning('****7 {}', [party.tokenAddress().toHexString()])
-    partyEntity.tokenAddress = party.tokenAddress()
+    let tokenAddress = party.tokenAddress()
+    partyEntity.tokenAddress = tokenAddress
+    log.warning('****8 {}', [party.tokenAddress().toHexString()])
+    let token = TokenBindingContract.bind(tokenAddress)
+    log.warning('****9 {}', [party.tokenAddress().toHexString()])
+    partyEntity.tokenSymbol = token.symbol()
+    log.warning('****10 {}', [party.tokenAddress().toHexString()])
+    partyEntity.tokenDecimals = token.decimals()
+    log.warning('****11 {}', [party.tokenAddress().toHexString()])
   }
   partyEntity.address = event.params.deployedAddress
   partyEntity.deposit = party.deposit()

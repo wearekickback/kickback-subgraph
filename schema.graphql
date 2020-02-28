@@ -7,6 +7,8 @@ type  PartyEntity @entity {
   limitOfParticipants: Int
   coolingPeriod: Int
   tokenAddress: Bytes
+  tokenSymbol: String
+  tokenDecimals: Int
   createdAt: BigInt
   endedAt: BigInt
 }

@@ -113,6 +113,8 @@ templates:
           file: ./abis/Deployer.json
         - name: Party
           file: ./abis/Party.json
+        - name: Token
+          file: ./abis/Token.json
       eventHandlers:
         - event: RegisterEvent(address,uint256)
           handler: handleRegisterEvent
