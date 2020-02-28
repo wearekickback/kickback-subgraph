@@ -21,6 +21,8 @@ dataSources:
           file: ./abis/Deployer.json
         - name: Party
           file: ./abis/Party.json
+        - name: Token
+          file: ./abis/Token.json
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
