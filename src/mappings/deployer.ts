@@ -14,7 +14,9 @@ import {
   Token as TokenBindingContract,
 } from "../../generated/templates/Party/Token"
 
+
 var EMPTY_ADDRESS = Bytes.fromHexString("0x0000000000000000000000000000000000000000") as Bytes
+var SAI_ADDRESS = Bytes.fromHexString("0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359")
 
 import { log } from '@graphprotocol/graph-ts'
 
@@ -36,19 +38,44 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   let partyEntity = new PartyEntity(event.params.deployedAddress.toHex())
   partyEntity.limitOfParticipants = limitOfParticipants
   if(isEthOnly){
-    log.warning('****6 {}', [EMPTY_ADDRESS.toHexString()])
     partyEntity.tokenAddress = EMPTY_ADDRESS
+    partyEntity.tokenDecimals = 18
+    partyEntity.tokenSymbol = 'ETH'
   }else{
-    log.warning('****7 {}', [party.tokenAddress().toHexString()])
     let tokenAddress = party.tokenAddress()
+    log.warning('****7 {} {}', [party.tokenAddress().toHexString(), event.params.deployedAddress.toHexString()])
     partyEntity.tokenAddress = tokenAddress
-    log.warning('****8 {}', [party.tokenAddress().toHexString()])
-    let token = TokenBindingContract.bind(tokenAddress)
-    log.warning('****9 {}', [party.tokenAddress().toHexString()])
-    partyEntity.tokenSymbol = token.symbol()
-    log.warning('****10 {}', [party.tokenAddress().toHexString()])
-    partyEntity.tokenDecimals = token.decimals()
-    log.warning('****11 {}', [party.tokenAddress().toHexString()])
+    if(tokenAddress == EMPTY_ADDRESS){
+      partyEntity.tokenDecimals = 18
+      partyEntity.tokenSymbol = 'ETH'  
+    } else if(tokenAddress == SAI_ADDRESS){
+      partyEntity.tokenDecimals = 18
+      partyEntity.tokenSymbol = 'SAI'  
+    }else{
+      log.warning('****0008 {}', [party.tokenAddress().toHexString()])
+      let token = TokenBindingContract.bind(tokenAddress)
+      log.warning('****0009 {}', [party.tokenAddress().toHexString()])
+      let tryDecimals = token.try_decimals()
+      let decimals = 0
+      if(tryDecimals.reverted){
+        log.warning('****00091 {}', [party.tokenAddress().toHexString()])
+      }else{
+        decimals = tryDecimals.value
+        log.warning('****000092 {}', [party.tokenAddress().toHexString()])
+      }
+      partyEntity.tokenDecimals = decimals
+  
+      let trySymbol = token.try_symbol()
+      let symbol = ''
+      if(trySymbol.reverted){
+        log.warning('****000101 {} , {}', [party.tokenAddress().toHexString(), event.params.deployedAddress.toHexString()])
+      }else{
+        symbol = trySymbol.value.toString()
+        log.warning('****000102 {} , {}', [party.tokenAddress().toHexString(), event.params.deployedAddress.toHexString()])
+      }
+      partyEntity.tokenSymbol = symbol
+    }
+    log.warning('****000203 {} , {}', [party.tokenAddress().toHexString(), event.params.deployedAddress.toHexString()])
   }
   partyEntity.address = event.params.deployedAddress
   partyEntity.deposit = party.deposit()
