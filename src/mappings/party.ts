@@ -23,6 +23,7 @@ export function handleRegisterEvent(event: RegisterEvent): void {
     ]
   );
   let participant = new ParticipantEntity(event.address.toHexString() + '-' + event.params.addr.toHexString())
+  participant.index = event.params.index.toI32()
   participant.partyAddress = event.address
   participant.userAddress = event.params.addr
   participant.state = 'REGISTERED'
@@ -45,9 +46,12 @@ export function handleFinalizeEvent(event: FinalizeEvent): void {
   let party = PartyEntity.load(event.address.toHexString())
   party.payout = event.params.payout
   party.endedAt =  event.block.timestamp
+
   party.save()
 }
 
 export function handleClearEvent(event: ClearEvent): void {
-
+  let party = PartyEntity.load(event.address.toHexString())
+  party.clearedAt =  event.block.timestamp
+  party.save()
 }

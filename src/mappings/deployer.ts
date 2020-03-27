@@ -40,6 +40,7 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   if(isEthOnly){
     partyEntity.tokenAddress = EMPTY_ADDRESS
     partyEntity.tokenDecimals = 18
+    partyEntity.tokenName = 'Ethereum'
     partyEntity.tokenSymbol = 'ETH'
   }else{
     let tokenAddress = party.tokenAddress()
@@ -47,14 +48,17 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
     partyEntity.tokenAddress = tokenAddress
     if(tokenAddress == EMPTY_ADDRESS){
       partyEntity.tokenDecimals = 18
-      partyEntity.tokenSymbol = 'ETH'  
+      partyEntity.tokenSymbol = 'ETH'
+      partyEntity.tokenName = 'Ethereum'
     } else if(tokenAddress == SAI_ADDRESS){
       partyEntity.tokenDecimals = 18
-      partyEntity.tokenSymbol = 'SAI'  
+      partyEntity.tokenSymbol = 'SAI'
+      partyEntity.tokenName = 'Single Collateral Dai'
     }else{
       log.warning('****0008 {}', [party.tokenAddress().toHexString()])
       let token = TokenBindingContract.bind(tokenAddress)
       log.warning('****0009 {}', [party.tokenAddress().toHexString()])
+      partyEntity.tokenName = token.name()
       let tryDecimals = token.try_decimals()
       let decimals = 0
       if(tryDecimals.reverted){
