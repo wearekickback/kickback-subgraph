@@ -7,12 +7,17 @@ type  PartyEntity @entity {
   limitOfParticipants: Int
   coolingPeriod: Int
   tokenAddress: Bytes
+  tokenName: String
+  tokenSymbol: String
+  tokenDecimals: Int
   createdAt: BigInt
   endedAt: BigInt
+  clearedAt: BigInt
 }
-
+    
 type ParticipantEntity @entity {
   id: ID!
+  index: Int
   partyAddress: Bytes
   userAddress: Bytes
   state: String

@@ -1,7 +1,7 @@
 specVersion: 0.0.2
 schema:
   file: ./schema.graphql
-dataSources:
+dataSources:  
   - kind: ethereum/contract
     name: Deployer
     network: mainnet
@@ -21,6 +21,8 @@ dataSources:
           file: ./abis/Deployer.json
         - name: Party
           file: ./abis/Party.json
+        - name: Token
+          file: ./abis/Token.json
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
@@ -44,6 +46,8 @@ dataSources:
           file: ./abis/Deployer.json
         - name: Party
           file: ./abis/Party.json
+        - name: Token
+          file: ./abis/Token.json
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
@@ -67,6 +71,8 @@ dataSources:
           file: ./abis/Deployer.json
         - name: Party
           file: ./abis/Party.json
+        - name: Token
+          file: ./abis/Token.json
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleEthOnlyNewParty
@@ -90,6 +96,8 @@ dataSources:
           file: ./abis/Deployer.json
         - name: Party
           file: ./abis/Party.json
+        - name: Token
+          file: ./abis/Token.json
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleEthOnlyNewParty
@@ -113,6 +121,8 @@ templates:
           file: ./abis/Deployer.json
         - name: Party
           file: ./abis/Party.json
+        - name: Token
+          file: ./abis/Token.json
       eventHandlers:
         - event: RegisterEvent(address,uint256)
           handler: handleRegisterEvent
