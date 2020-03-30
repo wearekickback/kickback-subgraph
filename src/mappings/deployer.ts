@@ -30,21 +30,27 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
       event.transaction.hash.toHexString() // "0x..."
     ]
   );
-  
+  log.warning('****2 {}', [''])
   // Creating dynamic source
   PartyContract.create(event.params.deployedAddress)
+  log.warning('****3 {}', [''])
   let party = PartyBindingContract.bind(event.params.deployedAddress)
+  log.warning('****4 {}', [''])
   let limitOfParticipants = party.limitOfParticipants().toI32()
+  log.warning('****5 {}', [''])
   let partyEntity = new PartyEntity(event.params.deployedAddress.toHex())
+  log.warning('****6 {}', [''])
   partyEntity.limitOfParticipants = limitOfParticipants
+  log.warning('****7 {}', [''])
   if(isEthOnly){
+    log.warning('****8 {}', [''])
     partyEntity.tokenAddress = EMPTY_ADDRESS
     partyEntity.tokenDecimals = 18
     partyEntity.tokenName = 'Ethereum'
     partyEntity.tokenSymbol = 'ETH'
   }else{
     let tokenAddress = party.tokenAddress()
-    log.warning('****7 {} {}', [party.tokenAddress().toHexString(), event.params.deployedAddress.toHexString()])
+    log.warning('****9 {} {}', [party.tokenAddress().toHexString(), event.params.deployedAddress.toHexString()])
     partyEntity.tokenAddress = tokenAddress
     if(tokenAddress == EMPTY_ADDRESS){
       partyEntity.tokenDecimals = 18
