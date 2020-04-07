@@ -7,7 +7,7 @@ dataSources:
     network: mainnet
     source:
       # Local data
-      address: "0xB7465Eef8d3334E1f78Af0382201bd079E3d926B"
+      address: "0xD8F3257ea8E50bf78B2d950A1949f5d94d613DBe"
       abi: Deployer
     mapping:
       kind: ethereum/events
