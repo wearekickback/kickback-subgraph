@@ -1,7 +1,7 @@
 import { BigInt, Bytes, ByteArray } from "@graphprotocol/graph-ts"
 import { DeployCall } from '../../generated/Deployer/Deployer'
 import {
-  NewParty
+  NewParty, OwnershipTransferred
 } from "../../generated/Deployer/Deployer"
 import { PartyEntity } from "../../generated/schema"
 import {
@@ -92,6 +92,7 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   partyEntity.createdAt = event.block.timestamp
   partyEntity.admins = []
   partyEntity.coolingPeriod = party.coolingPeriod().toI32()
+  partyEntity.ownerAddress = party.owner()
   partyEntity.save()
 }
 
@@ -103,4 +104,12 @@ export function handleEthOnlyNewParty(event: NewParty): void {
 export function handleNewParty(event: NewParty): void {
   log.warning('*** handleNewParty', {})
   createNewParty(event, false)
+}
+
+
+export function handleOwnershipTransferred(event: OwnershipTransferred): void {
+  log.warning('*** handleOwnershipTransferredNewParty', {})
+  let partyEntity = PartyEntity.load(event.address.toHexString())
+  partyEntity.ownerAddress = event.params.newOwner
+  partyEntity.save()
 }
