@@ -4,7 +4,7 @@ schema:
 dataSources:  
   - kind: ethereum/contract
     name: Deployer
-    network: mainnet
+    network: kovan
     source:
       # Local data
       address: "0xD8F3257ea8E50bf78B2d950A1949f5d94d613DBe"
@@ -29,7 +29,7 @@ dataSources:
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
-    network: mainnet
+    network: kovan
     source:
       # 1.2.9
       address: "0x3361aa92E426E052141Daf9e41A09d36e994Ba23"
@@ -54,10 +54,10 @@ dataSources:
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
-    network: mainnet
+    network: kovan
     source:
       # 1.0
-      address: "0x0F84461931866cFB2796E09B20520847D49F80F2"
+      address: "0x9C7DbAe0A2EeF05D08E2e18Ff6173dFf7c5537eB"
       abi: Deployer
     mapping:
       kind: ethereum/events
@@ -79,7 +79,7 @@ dataSources:
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
-    network: mainnet
+    network: kovan
     source:
       # Devcon4
       address: "0x3b4e0e8b808b360330a63ae13c2434977bc17203"
@@ -105,7 +105,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Party
-    network: mainnet
+    network: kovan
     source:
       abi: Party
     mapping:
