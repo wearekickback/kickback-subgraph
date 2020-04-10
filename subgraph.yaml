@@ -134,3 +134,7 @@ templates:
           handler: handleFinalizeEvent
         - event: ClearEvent(address,uint256)
           handler: handleClearEvent
+        - event: AdminGranted(indexed address)
+          handler: handleAdminGranted
+        - event: AdminRevoked(indexed address)
+          handler: handleAdminRevoked

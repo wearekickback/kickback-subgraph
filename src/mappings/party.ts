@@ -5,10 +5,15 @@ import {
   WithdrawEvent,
   UpdateParticipantLimit,
   FinalizeEvent,
-  ClearEvent
+  ClearEvent,
+  AdminGranted,
+  AdminRevoked
 } from "../../generated/templates/Party/Party"
 import { PartyEntity, ParticipantEntity } from "../../generated/schema"
 import { log } from '@graphprotocol/graph-ts'
+import {
+  Party as PartyBindingContract,
+} from "../../generated/templates/Party/Party"
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -46,12 +51,38 @@ export function handleFinalizeEvent(event: FinalizeEvent): void {
   let party = PartyEntity.load(event.address.toHexString())
   party.payout = event.params.payout
   party.endedAt =  event.block.timestamp
-
+  let partyContract = PartyBindingContract.bind(event.address)
+  let numRegistered = partyContract.registered()
+  for (let i = 1; i <= numRegistered.toI32(); i++) {
+    let address = partyContract.participantsIndex(BigInt.fromI32(i))
+    let isAttended = partyContract.isAttended(address)
+    let participant = ParticipantEntity.load(event.address.toHexString() + '-' + address.toHexString())
+    if(isAttended){
+      participant.state = 'WON'
+    }else{
+      participant.state = 'LOST'
+    }
+    participant.save()  
+  }
   party.save()
 }
 
 export function handleClearEvent(event: ClearEvent): void {
   let party = PartyEntity.load(event.address.toHexString())
   party.clearedAt =  event.block.timestamp
+  party.save()
+}
+
+export function handleAdminGranted(event: AdminGranted): void {
+  let partyContract = PartyBindingContract.bind(event.address)
+  let party = PartyEntity.load(event.address.toHexString())
+  party.admins = partyContract.getAdmins() as Array<Bytes>
+  party.save()
+}
+
+export function handleAdminRevoked(event: AdminRevoked): void {
+  let partyContract = PartyBindingContract.bind(event.address)
+  let party = PartyEntity.load(event.address.toHexString())
+  party.admins = partyContract.getAdmins() as Array<Bytes>
   party.save()
 }

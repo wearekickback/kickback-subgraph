@@ -90,7 +90,8 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   partyEntity.address = event.params.deployedAddress
   partyEntity.deposit = party.deposit()
   partyEntity.createdAt = event.block.timestamp
-  partyEntity.coolPeriod = party.coolingPeriod()
+  partyEntity.admins = []
+  partyEntity.coolingPeriod = party.coolingPeriod().toI32()
   partyEntity.save()
 }
 
@@ -103,4 +104,3 @@ export function handleNewParty(event: NewParty): void {
   log.warning('*** handleNewParty', {})
   createNewParty(event, false)
 }
-
