@@ -5,7 +5,9 @@ import {
   WithdrawEvent,
   UpdateParticipantLimit,
   FinalizeEvent,
-  ClearEvent
+  ClearEvent,
+  AdminGranted,
+  AdminRevoked
 } from "../../generated/templates/Party/Party"
 import { PartyEntity, ParticipantEntity } from "../../generated/schema"
 import { log } from '@graphprotocol/graph-ts'
@@ -74,5 +76,19 @@ export function handleFinalizeEvent(event: FinalizeEvent): void {
 export function handleClearEvent(event: ClearEvent): void {
   let party = PartyEntity.load(event.address.toHexString())
   party.clearedAt =  event.block.timestamp
+  party.save()
+}
+
+export function handleAdminGranted(event: AdminGranted): void {
+  let partyContract = PartyBindingContract.bind(event.address)
+  let party = PartyEntity.load(event.address.toHexString())
+  party.admins = partyContract.getAdmins() as Array<Bytes>
+  party.save()
+}
+
+export function handleAdminRevoked(event: AdminRevoked): void {
+  let partyContract = PartyBindingContract.bind(event.address)
+  let party = PartyEntity.load(event.address.toHexString())
+  party.admins = partyContract.getAdmins() as Array<Bytes>
   party.save()
 }
