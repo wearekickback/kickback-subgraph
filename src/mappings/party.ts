@@ -55,3 +55,15 @@ export function handleClearEvent(event: ClearEvent): void {
   party.clearedAt =  event.block.timestamp
   party.save()
 }
+
+export function handleAdminGranted(event: AdminGranted): void {
+  let party = PartyEntity.load(event.address.toHexString())
+  party.admins = [...party.admins, event.params.address]
+  party.save()
+}
+
+export function handleAdminRevoked(event: AdminRevoked): void {
+  let party = PartyEntity.load(event.address.toHexString())
+  party.admins = party.admins.filter(admin => admin === event.params.address)
+  party.save()
+}
