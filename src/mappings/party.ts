@@ -62,12 +62,6 @@ export function handleFinalizeEvent(event: FinalizeEvent): void {
     }else{
       participant.state = 'LOST'
     }
-    if(i != participant.index){
-      log.warning('*** handleFinalizeEvent index mismatch ***  event {} user {}', [
-        event.address.toHexString(),
-        address.toHexString()
-      ])
-    }
     participant.save()  
   }
   party.save()
