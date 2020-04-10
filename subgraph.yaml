@@ -26,6 +26,8 @@ dataSources:
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
@@ -51,6 +53,9 @@ dataSources:
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleNewParty
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
@@ -76,6 +81,8 @@ dataSources:
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleEthOnlyNewParty
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
@@ -101,6 +108,8 @@ dataSources:
       eventHandlers:
         - event: NewParty(indexed address,indexed address)
           handler: handleEthOnlyNewParty
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
       file: ./src/mappings/deployer.ts
 templates:
   - kind: ethereum/contract
