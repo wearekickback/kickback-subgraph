@@ -9,6 +9,9 @@ import {
 } from "../../generated/templates/Party/Party"
 import { PartyEntity, ParticipantEntity } from "../../generated/schema"
 import { log } from '@graphprotocol/graph-ts'
+import {
+  Party as PartyBindingContract,
+} from "../../generated/templates/Party/Party"
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -46,7 +49,25 @@ export function handleFinalizeEvent(event: FinalizeEvent): void {
   let party = PartyEntity.load(event.address.toHexString())
   party.payout = event.params.payout
   party.endedAt =  event.block.timestamp
-
+  let partyContract = PartyBindingContract.bind(event.address)
+  let numRegistered = partyContract.registered()
+  for (let i = 1; i <= numRegistered.toI32(); i++) {
+    let address = partyContract.participantsIndex(BigInt.fromI32(i))
+    let isAttended = partyContract.isAttended(address)
+    let participant = ParticipantEntity.load(event.address.toHexString() + '-' + address.toHexString())
+    if(isAttended){
+      participant.state = 'WON'
+    }else{
+      participant.state = 'LOST'
+    }
+    if(i != participant.index){
+      log.warning('*** handleFinalizeEvent index mismatch ***  event {} user {}', [
+        event.address.toHexString(),
+        address.toHexString()
+      ])  
+    }
+    participant.save()  
+  }
   party.save()
 }
 
