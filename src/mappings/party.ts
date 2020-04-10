@@ -64,7 +64,7 @@ export function handleFinalizeEvent(event: FinalizeEvent): void {
       log.warning('*** handleFinalizeEvent index mismatch ***  event {} user {}', [
         event.address.toHexString(),
         address.toHexString()
-      ])  
+      ])
     }
     participant.save()  
   }
