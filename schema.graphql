@@ -13,6 +13,7 @@ type  PartyEntity @entity {
   createdAt: BigInt
   endedAt: BigInt
   clearedAt: BigInt
+  admins: [String]
 }
     
 type ParticipantEntity @entity {
