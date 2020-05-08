@@ -1,10 +1,10 @@
 {
-  "name": "kickback-subgraph",
+  "name": "kickback-rinkeby",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ wearekickback/kickback",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ wearekickback/kickback-rinkeby",
     "create-local": "graph create --node http://localhost:8020/ wearekickback/kickback",
     "remove-local": "graph remove --node http://localhost:8020/ wearekickback/kickback",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 wearekickback/kickback"
