@@ -37,7 +37,7 @@ export function handleRegisterEvent(event: RegisterEvent): void {
 
 export function handleWithdrawEvent(event: WithdrawEvent): void {
   let participant = ParticipantEntity.load(event.address.toHexString() + '-' + event.params.addr.toHexString())
-  participant.state = 'WITHDRAWN'
+  participant.state = 'WITHDRAWN_PAYOUT'
   participant.save()
 }
 
