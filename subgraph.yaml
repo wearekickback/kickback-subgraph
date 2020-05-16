@@ -34,7 +34,7 @@ dataSources:
     network: rinkeby
     source:
       # 1.2.9
-      address: "0x3361aa92E426E052141Daf9e41A09d36e994Ba23"
+      address: "0xEA36d4e2C27f870b281E896D452ae1D9d2D32B65"
       abi: Deployer
     mapping:
       kind: ethereum/events
