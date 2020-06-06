@@ -2,6 +2,7 @@
   "name": "kickback-subgraph",
   "license": "UNLICENSED",
   "scripts": {
+    "setup": "npm run codegen && npm run create-local && npm run deploy-local",
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ wearekickback/kickback",
