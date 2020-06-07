@@ -10,6 +10,7 @@ type  PartyEntity @entity {
   tokenName: String
   tokenSymbol: String
   tokenDecimals: Int
+  totalBalance: BigInt
   createdAt: BigInt
   endedAt: BigInt
   clearedAt: BigInt
