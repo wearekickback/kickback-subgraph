@@ -1,4 +1,4 @@
-import { BigInt, Bytes } from "@graphprotocol/graph-ts"
+import { BigInt, Bytes, log, EthereumEvent } from "@graphprotocol/graph-ts"
 import {
   Party as PartyContract,
   RegisterEvent,
@@ -10,12 +10,16 @@ import {
   AdminRevoked
 } from "../../generated/templates/Party/Party"
 import { PartyEntity, ParticipantEntity } from "../../generated/schema"
-import { log } from '@graphprotocol/graph-ts'
 import {
   Party as PartyBindingContract,
 } from "../../generated/templates/Party/Party"
 
-const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000'
+function updateTotalBalance(event: EthereumEvent): void {
+  let party = PartyEntity.load(event.address.toHexString())
+  let partyContract = PartyBindingContract.bind(event.address)
+  party.totalBalance = partyContract.totalBalance()
+  party.save()
+}
 
 export function handleRegisterEvent(event: RegisterEvent): void {
   log.warning(
@@ -33,12 +37,14 @@ export function handleRegisterEvent(event: RegisterEvent): void {
   participant.userAddress = event.params.addr
   participant.state = 'REGISTERED'
   participant.save()
+  updateTotalBalance(event)
 }
 
 export function handleWithdrawEvent(event: WithdrawEvent): void {
   let participant = ParticipantEntity.load(event.address.toHexString() + '-' + event.params.addr.toHexString())
   participant.state = 'WITHDRAWN_PAYOUT'
   participant.save()
+  updateTotalBalance(event)
 }
 
 export function handleUpdateParticipantLimit(event: UpdateParticipantLimit): void {
@@ -71,6 +77,7 @@ export function handleClearEvent(event: ClearEvent): void {
   let party = PartyEntity.load(event.address.toHexString())
   party.clearedAt =  event.block.timestamp
   party.save()
+  updateTotalBalance(event)
 }
 
 export function handleAdminGranted(event: AdminGranted): void {

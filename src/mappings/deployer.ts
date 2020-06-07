@@ -88,6 +88,7 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   partyEntity.coolingPeriod = party.coolingPeriod().toI32()
   partyEntity.ownerAddress = party.owner()
   partyEntity.name = party.name()
+  partyEntity.totalBalance = BigInt.fromI32(0) // Should be 0 when newly created
   partyEntity.save()
 }
 
