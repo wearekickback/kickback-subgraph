@@ -1,13 +1,12 @@
 specVersion: 0.0.2
 schema:
   file: ./schema.graphql
-dataSources:  
+dataSources:
   - kind: ethereum/contract
     name: Deployer
     network: rinkeby
     source:
-      # Local data
-      address: "0xD8F3257ea8E50bf78B2d950A1949f5d94d613DBe"
+      address: '0xda396a2fc5f0e3a87a874757f1317102f49da5b0'
       abi: Deployer
     mapping:
       kind: ethereum/events
@@ -24,10 +23,12 @@ dataSources:
         - name: Token
           file: ./abis/Token.json
       eventHandlers:
-        - event: NewParty(indexed address,indexed address)
+        - event: 'NewParty(indexed address,indexed address)'
           handler: handleNewParty
-        - event: OwnershipTransferred(indexed address,indexed address)
+        - event: 'OwnershipTransferred(indexed address,indexed address)'
           handler: handleOwnershipTransferred
+        - event: 'ClearFeeChanged(indexed uint256)'
+          handler: handleClearFeeChanged
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
@@ -51,11 +52,10 @@ dataSources:
         - name: Token
           file: ./abis/Token.json
       eventHandlers:
-        - event: NewParty(indexed address,indexed address)
+        - event: 'NewParty(indexed address,indexed address)'
           handler: handleNewParty
-        - event: OwnershipTransferred(indexed address,indexed address)
+        - event: 'OwnershipTransferred(indexed address,indexed address)'
           handler: handleOwnershipTransferred
-
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
@@ -79,17 +79,16 @@ dataSources:
         - name: Token
           file: ./abis/Token.json
       eventHandlers:
-        - event: NewParty(indexed address,indexed address)
+        - event: 'NewParty(indexed address,indexed address)'
           handler: handleEthOnlyNewParty
-        - event: OwnershipTransferred(indexed address,indexed address)
+        - event: 'OwnershipTransferred(indexed address,indexed address)'
           handler: handleOwnershipTransferred
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
     network: rinkeby
     source:
-      # Devcon4
-      address: "0x3b4e0e8b808b360330a63ae13c2434977bc17203"
+      address: '0x3b4e0e8b808b360330a63ae13c2434977bc17203'
       abi: Deployer
     mapping:
       kind: ethereum/events
@@ -106,9 +105,9 @@ dataSources:
         - name: Token
           file: ./abis/Token.json
       eventHandlers:
-        - event: NewParty(indexed address,indexed address)
+        - event: 'NewParty(indexed address,indexed address)'
           handler: handleEthOnlyNewParty
-        - event: OwnershipTransferred(indexed address,indexed address)
+        - event: 'OwnershipTransferred(indexed address,indexed address)'
           handler: handleOwnershipTransferred
       file: ./src/mappings/deployer.ts
 templates:
@@ -133,15 +132,15 @@ templates:
         - name: Token
           file: ./abis/Token.json
       eventHandlers:
-        - event: RegisterEvent(address,uint256)
+        - event: 'RegisterEvent(address,uint256)'
           handler: handleRegisterEvent
-        - event: WithdrawEvent(address,uint256)
+        - event: 'WithdrawEvent(address,uint256)'
           handler: handleWithdrawEvent
         - event: UpdateParticipantLimit(uint256)
           handler: handleUpdateParticipantLimit
-        - event: FinalizeEvent(uint256[],uint256,uint256)
+        - event: 'FinalizeEvent(uint256[],uint256,uint256)'
           handler: handleFinalizeEvent
-        - event: ClearEvent(address,uint256)
+        - event: 'ClearEvent(address,uint256)'
           handler: handleClearEvent
         - event: AdminGranted(indexed address)
           handler: handleAdminGranted

@@ -1,7 +1,7 @@
 import { BigInt, Bytes, ByteArray } from "@graphprotocol/graph-ts"
 import { DeployCall } from '../../generated/Deployer/Deployer'
 import {
-  NewParty, OwnershipTransferred
+  NewParty, OwnershipTransferred, ClearFeeChanged
 } from "../../generated/Deployer/Deployer"
 import { PartyEntity } from "../../generated/schema"
 import {
@@ -89,6 +89,8 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   partyEntity.ownerAddress = party.owner()
   partyEntity.name = party.name()
   partyEntity.totalBalance = BigInt.fromI32(0) // Should be 0 when newly created
+  partyEntity.clearFee = party.clearFee().toI32()
+  partyEntity.withdrawn = party.withdrawn().toI32()
   partyEntity.save()
 }
 
@@ -107,5 +109,13 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
   log.warning('*** handleOwnershipTransferredNewParty', {})
   let partyEntity = PartyEntity.load(event.address.toHexString())
   partyEntity.ownerAddress = event.params.newOwner
+  partyEntity.save()
+}
+
+
+export function handleClearFeeChanged(event: ClearFeeChanged): void {
+  log.warning('*** handleClearFeeChanged', {})
+  let partyEntity = PartyEntity.load(event.address.toHexString())
+  partyEntity.clearFee = event.params.clearFee.toI32()
   partyEntity.save()
 }
