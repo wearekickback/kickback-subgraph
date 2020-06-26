@@ -19,6 +19,10 @@ function updateTotalBalance(event: EthereumEvent): void {
   let partyContract = PartyBindingContract.bind(event.address)
   party.totalBalance = partyContract.totalBalance()
   party.withdrawn = partyContract.withdrawn().toI32()
+  let tryWithdrawn = partyContract.try_withdrawn()
+  if(!tryWithdrawn.reverted){
+    party.withdrawn = tryWithdrawn.value.toI32()
+  }
 
   party.save()
 }

@@ -94,8 +94,11 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   if(!tryClearFee.reverted){
     partyEntity.clearFee = tryClearFee.value.toI32()
   }
+  let tryWithdrawn = party.try_withdrawn()
+  if(!tryWithdrawn.reverted){
+    partyEntity.withdrawn = tryWithdrawn.value.toI32()
+  }
 
-  partyEntity.withdrawn = party.withdrawn().toI32()
   partyEntity.save()
 }
 
