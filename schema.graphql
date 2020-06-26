@@ -16,6 +16,8 @@ type  PartyEntity @entity {
   clearedAt: BigInt
   admins: [Bytes!]!
   ownerAddress: Bytes!
+  clearFee: Int
+  withdrawn: Int
 }
     
 type ParticipantEntity @entity {
