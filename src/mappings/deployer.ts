@@ -89,7 +89,12 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   partyEntity.ownerAddress = party.owner()
   partyEntity.name = party.name()
   partyEntity.totalBalance = BigInt.fromI32(0) // Should be 0 when newly created
-  partyEntity.clearFee = party.clearFee().toI32()
+  partyEntity.clearFee = 0
+  let tryClearFee = party.try_clearFee()
+  if(!tryClearFee.reverted){
+    partyEntity.clearFee = tryClearFee.value.toI32()
+  }
+
   partyEntity.withdrawn = party.withdrawn().toI32()
   partyEntity.save()
 }
