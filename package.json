@@ -5,7 +5,7 @@
     "setup": "npm run codegen && npm run create-local && npm run deploy-local",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ wearekickback/kickback",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ wearekickback/kickbackpolygon",
     "create-local": "graph create --node http://localhost:8020/ wearekickback/kickback",
     "remove-local": "graph remove --node http://localhost:8020/ wearekickback/kickback",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 wearekickback/kickback"

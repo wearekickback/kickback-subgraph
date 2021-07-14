@@ -9,7 +9,7 @@ Things not included are
 
 ## How to deploy
 
-## Mainnet
+## polygon
 
 ```
 // get access token from https://thegraph.com/explorer/subgraph/wearekickback/kickback
