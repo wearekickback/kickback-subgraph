@@ -20,7 +20,7 @@ var SAI_ADDRESS = Bytes.fromHexString("0x89d24a6b4ccb1b6faa2625fe562bdd9a2326035
 
 import { log } from '@graphprotocol/graph-ts'
 
-export function createNewParty(event: NewParty, isEthOnly:boolean): void{
+export function createNewParty(event: NewParty, isEthOnly:boolean, isNft:boolean): void{
   log.warning(
     '*** 1 Address: {}, Block number: {}, block hash: {}, transaction hash: {}',
     [
@@ -90,6 +90,7 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
   partyEntity.name = party.name()
   partyEntity.totalBalance = BigInt.fromI32(0) // Should be 0 when newly created
   partyEntity.clearFee = 0
+  partyEntity.isNft = isNft
   let tryClearFee = party.try_clearFee()
   if(!tryClearFee.reverted){
     partyEntity.clearFee = tryClearFee.value.toI32()
@@ -104,14 +105,23 @@ export function createNewParty(event: NewParty, isEthOnly:boolean): void{
 
 export function handleEthOnlyNewParty(event: NewParty): void {
   log.warning('*** handleEthOnlyNewParty', {})
-  createNewParty(event, true)
+  createNewParty(event, true, false)
 }
 
 export function handleNewParty(event: NewParty): void {
   log.warning('*** handleNewParty', {})
-  createNewParty(event, false)
+  createNewParty(event, false, false)
 }
 
+export function handleEthOnlyNewNFTParty(event: NewParty): void {
+  log.warning('*** handleEthOnlyNewPartyNFT', {})
+  createNewParty(event, true, true)
+}
+
+export function handleNewNFTParty(event: NewParty): void {
+  log.warning('*** handleNewPartyNFT', {})
+  createNewParty(event, false, true)
+}
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
   log.warning('*** handleOwnershipTransferredNewParty', {})

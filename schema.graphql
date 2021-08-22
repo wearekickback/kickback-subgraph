@@ -18,6 +18,7 @@ type  PartyEntity @entity {
   ownerAddress: Bytes!
   clearFee: Int
   withdrawn: Int
+  isNft: Boolean
 }
     
 type ParticipantEntity @entity {
