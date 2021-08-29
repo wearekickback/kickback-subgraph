@@ -4,9 +4,9 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Deployer
-    network: mainnet
+    network: polygon
     source:
-      address: '0xa62381b639DE7Ccf819F26A46070e31fCf92c6ae'
+      address: '0x206adBE01B6f85B60B5dc9B0FF91173375A953Fd'
       abi: Deployer
     mapping:
       kind: ethereum/events
@@ -32,9 +32,9 @@ dataSources:
       file: ./src/mappings/deployer.ts
   - kind: ethereum/contract
     name: Deployer
-    network: mainnet
+    network: polygon
     source:
-      address: '0xB7465Eef8d3334E1f78Af0382201bd079E3d926B'
+      address: '0xC5ddF439194f84AF79db7d7cd534aD01cC58910d'
       abi: Deployer
     mapping:
       kind: ethereum/events
